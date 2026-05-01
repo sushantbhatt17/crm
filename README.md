@@ -1,192 +1,156 @@
-# CRM Backend — Flask + MySQL
+# 🚀 NexusCRM — Full Stack CRM System (Enhanced)
 
-A clean, structured CRM REST API for a college project.
+A modern, full-stack **Customer Relationship Management (CRM)** application built with a **React frontend and Flask backend**, designed for seamless lead tracking, customer management, and sales pipeline visualization.
 
----
-
-## Project Structure
-
-```
-crm/backend/
-├── run.py                      # Application entry point
-├── requirements.txt
-├── .env.example                # Copy to .env and fill in values
-│
-├── config/
-│   └── config.py               # All environment/config variables
-│
-├── migrations/
-│   └── schema.sql              # Full MySQL schema (run this first)
-│
-└── app/
-    ├── __init__.py             # App factory + blueprint registration
-    ├── extensions.py           # MySQL extension instance
-    │
-    ├── utils/
-    │   └── helpers.py          # success/error helpers, pipeline stages
-    │
-    └── routes/
-        ├── leads.py            # Lead CRUD
-        ├── pipeline.py         # Pipeline stage management
-        ├── customers.py        # Customer management
-        ├── activities.py       # Activity tracking
-        └── analytics.py        # Dashboard analytics
-```
+⚡ **Zero-setup backend** — uses SQLite (auto-created on first run), eliminating the need for MySQL or XAMPP.
 
 ---
 
-## Quick Start
+## 👥 Contributors
 
-### 1. Create & Activate Virtual Environment
-
-A virtual environment keeps your project's packages isolated from other Python projects.
-
-**Step 1 — Create the venv (run once):**
-```bash
-python -m venv venv
-```
-
-**Step 2 — Activate it:**
-
-| OS | Command |
-|----|---------|
-| Windows (CMD) | `venv\Scripts\activate` |
-| Windows (PowerShell) | `venv\Scripts\Activate.ps1` |
-| Mac / Linux | `source venv/bin/activate` |
-
-> ✅ You'll know it's active when you see `(venv)` at the start of your terminal line.
-
-> ⚠️ **PowerShell error?** Run this once as Administrator, then retry:
-> ```powershell
-> Set-ExecutionPolicy RemoteSigned
-> ```
-
-**Step 3 — Deactivate when done (optional):**
-```bash
-deactivate
-```
-
-> 🔁 Every time you open a new terminal to work on this project, re-run the activate command before anything else.
+| Name              | GitHub            | Role                   |
+| ----------------- | ----------------- | ---------------------- |
+| **Pranitha**      | @pranithamalasala | Frontend & Integration |
+| **Sushant Bhatt** | @sushantbhatt17   | Backend & Database     |
 
 ---
 
-### 2. Install dependencies
+## 🚀 Quick Start
+
+### 🔹 Backend (Terminal 1)
+
 ```bash
+cd backend
 pip install -r requirements.txt
-```
-
-### 3. Setup environment variables
-```bash
-cp .env.example .env
-# Edit .env with your MySQL credentials
-```
-
-### 4. Create the database
-```bash
-mysql -u root -p < migrations/schema.sql
-```
-
-### 5. Run the server
-```bash
 python run.py
-# Server starts at http://localhost:5000
 ```
+
+Runs at: **http://localhost:5000**
+📌 Database (`crm.db`) is created automatically with seed data.
 
 ---
 
-## API Reference
+### 🔹 Frontend (Terminal 2)
 
-### Leads
-| Method | Endpoint          | Description              |
-|--------|-------------------|--------------------------|
-| GET    | /leads            | Get all leads            |
-| GET    | /leads?status=Won | Filter leads by status   |
-| GET    | /leads/{id}       | Get single lead          |
-| POST   | /leads            | Create new lead          |
-| PUT    | /leads/{id}       | Update lead              |
-| DELETE | /leads/{id}       | Delete lead              |
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### Pipeline
-| Method | Endpoint          | Description                        |
-|--------|-------------------|------------------------------------|
-| POST   | /pipeline/move    | Move lead to a stage (or advance)  |
-| GET    | /pipeline/stages  | List all pipeline stages           |
-| GET    | /pipeline/board   | Kanban board (leads by stage)      |
-
-### Customers
-| Method | Endpoint            | Description           |
-|--------|---------------------|-----------------------|
-| GET    | /customers          | Get all customers     |
-| GET    | /customers/{id}     | Get single customer   |
-| PUT    | /customers/{id}     | Update customer       |
-| DELETE | /customers/{id}     | Delete customer       |
-
-### Activities
-| Method | Endpoint              | Description                        |
-|--------|-----------------------|------------------------------------|
-| GET    | /activities           | Get all activities                 |
-| GET    | /activities?lead_id=1 | Get activities for a specific lead |
-| POST   | /activities           | Log new activity                   |
-| DELETE | /activities/{id}      | Delete activity                    |
-
-### Analytics
-| Method | Endpoint    | Description                |
-|--------|-------------|----------------------------|
-| GET    | /analytics  | Dashboard summary stats    |
+Runs at: **http://localhost:5173**
 
 ---
 
-## Example Requests
+### 🔐 Demo Login
 
-### Create a lead
-```bash
-curl -X POST http://localhost:5000/leads \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Alice Johnson", "email": "alice@example.com", "phone": "9876543210"}'
-```
-
-### Move lead through pipeline
-```bash
-# Auto-advance to next stage
-curl -X POST http://localhost:5000/pipeline/move \
-  -H "Content-Type: application/json" \
-  -d '{"lead_id": 1}'
-
-# Move to a specific stage (e.g., mark as Won → auto-creates customer)
-curl -X POST http://localhost:5000/pipeline/move \
-  -H "Content-Type: application/json" \
-  -d '{"lead_id": 1, "stage": "Won"}'
-```
-
-### Log an activity
-```bash
-curl -X POST http://localhost:5000/activities \
-  -H "Content-Type: application/json" \
-  -d '{"lead_id": 1, "user_id": 1, "type": "call", "notes": "Discussed pricing"}'
-```
-
-### Get dashboard analytics
-```bash
-curl http://localhost:5000/analytics
-```
+| Email                                 | Password |
+| ------------------------------------- | -------- |
+| [admin@crm.com](mailto:admin@crm.com) | admin123 |
 
 ---
 
-## Pipeline Stages (in order)
-```
-New Lead → Contacted → Demo → Negotiation → Won → Lost
-```
-- When a lead reaches **Won**, it is **automatically converted to a Customer**.
-- **Won** and **Lost** are terminal stages — they cannot be advanced further.
+## ✨ Key Features
+
+* 🔐 Authentication system with persistent session
+* 📊 Live analytics dashboard (charts + KPIs)
+* 👥 Lead management (CRUD, filtering, sorting, CSV export)
+* 🗂 Sales pipeline with Kanban board & stage transitions
+* 👤 Customer profiles with activity timeline
+* 📝 Activity logging system
+* 📱 Fully responsive modern UI (dark theme)
 
 ---
 
-## Database Schema Overview
+## 🔌 API Overview
 
-```
-users         → id, name, email, password, role
-leads         → id, name, email, phone, status, assigned_to (FK→users), created_at
-customers     → customer_id, lead_id (FK→leads), name, email, phone, company, notes
-deals         → id, lead_id (FK→leads), title, value, stage, owner_id (FK→users)
-activities    → activity_id, lead_id (FK→leads), user_id (FK→users), type, notes, date
-```
+| Method | Endpoint          | Description             |
+| ------ | ----------------- | ----------------------- |
+| POST   | `/users/login`    | User login              |
+| GET    | `/leads`          | Fetch leads             |
+| POST   | `/leads`          | Create lead             |
+| PUT    | `/leads/:id`      | Update lead             |
+| DELETE | `/leads/:id`      | Delete lead             |
+| GET    | `/pipeline/board` | Pipeline board          |
+| POST   | `/pipeline/move`  | Move lead across stages |
+| GET    | `/customers`      | Fetch customers         |
+| PUT    | `/customers/:id`  | Update customer         |
+| DELETE | `/customers/:id`  | Delete customer         |
+| GET    | `/activities`     | Activity logs           |
+| POST   | `/activities`     | Create activity         |
+| GET    | `/analytics`      | Dashboard analytics     |
+
+---
+
+## 🧱 Tech Stack
+
+**Frontend**
+
+* React 18 + Vite
+* Tailwind CSS
+* React Router v6
+* Recharts
+* Lucide React
+
+**Backend**
+
+* Flask 3
+* flask-cors
+* python-dotenv
+* bcrypt
+
+**Database**
+
+* SQLite (auto-managed, no external setup)
+
+---
+
+## 🛠 Improvements & Fixes
+
+### 🔹 Backend Enhancements
+
+* Replaced MySQL + XAMPP with **SQLite (zero setup)**
+* Removed Flask-MySQLdb dependency
+* Implemented `/users/login` authentication endpoint
+* Refactored SQL schema for SQLite compatibility
+* Added analytics metrics (revenue, pipeline value, trends)
+* Fixed missing dependencies (bcrypt)
+
+### 🔹 Frontend Enhancements
+
+* Converted static UI into **fully dynamic data-driven app**
+* Implemented real API integration across all pages
+* Added Analytics & Customers modules
+* Enabled full CRUD (Create, Edit, Delete) functionality
+* Implemented pipeline stage transitions
+* Added CSV export for leads
+* Fixed authentication persistence using sessionStorage
+* Added activity logging system
+
+---
+
+
+
+## 🎯 What This Project Demonstrates
+
+* End-to-end full-stack development
+* REST API design with Flask
+* Dynamic UI with React
+* State management & routing
+* Data visualization with charts
+* Clean modular architecture
+
+---
+
+## 🚧 Future Improvements
+
+* JWT-based authentication
+* Role-based access control
+* Cloud deployment (AWS / Vercel / Docker)
+* Real-time notifications
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
